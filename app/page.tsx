@@ -1,18 +1,17 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { RotateCcw, Volume2 } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 
 const words = [
-  { word: 'õun', image: './images/oun.webp', audio: './audio/oun.wav', color: 'coral' },
-  { word: 'tass', image: './images/tass.webp', audio: './audio/tass.wav', color: 'blue' },
-  { word: 'raamat', image: './images/raamat.webp', audio: './audio/raamat.wav', color: 'yellow' },
-  { word: 'võti', image: './images/voti.webp', audio: './audio/voti.wav', color: 'gold' },
+  { word: 'õun', image: './images/oun.webp', audio: './audio/oun.wav' },
+  { word: 'tass', image: './images/tass.webp', audio: './audio/tass.wav' },
+  { word: 'raamat', image: './images/raamat.webp', audio: './audio/raamat.wav' },
+  { word: 'võti', image: './images/voti.webp', audio: './audio/voti.wav' },
 ] as const;
 
 export default function Home() {
   const [revealed, setRevealed] = useState<Set<string>>(new Set());
-  const [playing, setPlaying] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const revealAndPlay = (word: (typeof words)[number]) => {
@@ -20,15 +19,11 @@ export default function Home() {
     audioRef.current?.pause();
     const audio = new Audio(word.audio);
     audioRef.current = audio;
-    setPlaying(word.word);
-    audio.addEventListener('ended', () => setPlaying(null), { once: true });
-    audio.addEventListener('error', () => setPlaying(null), { once: true });
-    void audio.play().catch(() => setPlaying(null));
+    void audio.play().catch(() => undefined);
   };
 
   const reset = () => {
     audioRef.current?.pause();
-    setPlaying(null);
     setRevealed(new Set());
   };
 
@@ -59,12 +54,11 @@ export default function Home() {
       <section className="word-grid" aria-label="Sõnakaardid">
         {words.map((item, index) => {
           const isRevealed = revealed.has(item.word);
-          const isPlaying = playing === item.word;
 
           return (
             <article className={`word-card ${isRevealed ? 'is-revealed' : ''}`} key={item.word}>
               <button
-                className={`picture-button color-${item.color}`}
+                className="picture-button"
                 type="button"
                 onClick={() => revealAndPlay(item)}
                 aria-label={`${isRevealed ? 'Kuula uuesti' : 'Ava sõna'}: kaart ${index + 1}`}
@@ -73,21 +67,18 @@ export default function Home() {
                 {/* The source assets are pre-sized WebP files, so native img keeps this fully static. */}
                 {/* oxlint-disable-next-line next/no-img-element */}
                 <img src={item.image} alt="" width="720" height="720" draggable="false" />
-                <span className={`sound-badge ${isPlaying ? 'is-playing' : ''}`} aria-hidden="true">
-                  <Volume2 size={18} strokeWidth={2.2} />
-                </span>
               </button>
 
               <div className="answer" aria-live="polite">
-                {isRevealed ? (
-                  <button type="button" onClick={() => revealAndPlay(item)} className="word-button">
-                    <span>{item.word}</span>
-                    <Volume2 size={18} aria-hidden="true" />
+                {isRevealed && (
+                  <button
+                    type="button"
+                    onClick={() => revealAndPlay(item)}
+                    className="word-button"
+                    aria-label={`Kuula uuesti: ${item.word}`}
+                  >
+                    {item.word}
                   </button>
-                ) : (
-                  <span className="hidden-word" aria-label="Sõna on peidetud">
-                    <i /><i /><i />
-                  </span>
                 )}
               </div>
             </article>
