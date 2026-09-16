@@ -25,6 +25,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - name: Normalize project-site assets
+        shell: bash
+        run: |
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          if [[ "$repo_name" != *.github.io && -d "dist/client/$repo_name/_next" ]]; then
+            mv "dist/client/$repo_name/_next" dist/client/_next
+            rmdir "dist/client/$repo_name"
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
