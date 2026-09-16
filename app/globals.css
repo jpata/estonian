@@ -1,0 +1,82 @@
+@import 'tailwindcss';
+
+:root {
+  --ink: #17324d;
+  --muted: #68798a;
+  --paper: #fffdf7;
+  --line: #dce4e7;
+  --teal: #087f74;
+  --shadow: 0 14px 40px rgba(31, 55, 71, 0.10);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: radial-gradient(circle at 8% 10%, rgba(255, 214, 92, 0.18), transparent 25rem), linear-gradient(180deg, #f7fbf9 0%, var(--paper) 42%, #f8faf8 100%);
+  color: var(--ink);
+  font-family: ui-rounded, "Avenir Next", Avenir, "Trebuchet MS", system-ui, sans-serif;
+  min-height: 100vh;
+}
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+.page-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding-bottom: 42px; }
+.site-header { height: 82px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.brand { display: inline-flex; align-items: center; gap: 11px; color: var(--ink); font-weight: 800; font-size: 1.18rem; text-decoration: none; letter-spacing: -0.02em; }
+.brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px 11px 11px 4px; background: var(--teal); color: white; font-size: 1rem; box-shadow: 0 5px 14px rgba(8, 127, 116, 0.23); }
+.lesson-label { color: var(--muted); font-size: 0.88rem; font-weight: 650; }
+.intro { padding: 54px 0 34px; }
+.eyebrow { margin: 0 0 10px; color: var(--teal); font-size: 0.78rem; line-height: 1; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
+.intro-row { display: flex; align-items: end; justify-content: space-between; gap: 28px; }
+.intro h1 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.9rem); line-height: 0.98; letter-spacing: -0.065em; font-weight: 850; }
+.intro p:not(.eyebrow) { max-width: 590px; margin: 18px 0 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.18rem); line-height: 1.55; }
+.progress { flex: 0 0 auto; display: flex; align-items: baseline; padding: 12px 16px; border-radius: 999px; background: white; border: 1px solid var(--line); box-shadow: 0 7px 24px rgba(31, 55, 71, 0.06); }
+.progress-number { color: var(--teal); font-size: 1.35rem; font-weight: 850; }
+.progress-total { color: var(--muted); font-size: 0.82rem; font-weight: 650; margin-left: 4px; }
+.word-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.word-card { min-width: 0; }
+.picture-button { position: relative; display: block; width: 100%; aspect-ratio: 1 / 1.04; padding: 0; overflow: hidden; border: 0; border-radius: 24px; background: #f2eee3; cursor: pointer; box-shadow: var(--shadow); transition: transform 180ms ease, box-shadow 180ms ease; }
+.picture-button:hover { transform: translateY(-4px); box-shadow: 0 18px 46px rgba(31, 55, 71, 0.15); }
+.picture-button:active { transform: translateY(-1px) scale(0.985); }
+.picture-button:focus-visible, .word-button:focus-visible, .page-footer button:focus-visible { outline: 3px solid rgba(8, 127, 116, 0.42); outline-offset: 4px; }
+.picture-button img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; transition: transform 420ms cubic-bezier(.2,.75,.2,1); }
+.is-revealed .picture-button img { transform: scale(1.035); }
+.picture-button::after { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 1px solid rgba(23, 50, 77, 0.07); pointer-events: none; }
+.sound-badge { position: absolute; right: 13px; bottom: 13px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; color: var(--ink); background: rgba(255,255,255,0.9); box-shadow: 0 4px 14px rgba(23,50,77,0.13); backdrop-filter: blur(8px); }
+.sound-badge.is-playing { color: white; background: var(--teal); animation: pulse 800ms ease-in-out infinite alternate; }
+@keyframes pulse { to { transform: scale(1.08); box-shadow: 0 0 0 7px rgba(8,127,116,0.14); } }
+.answer { height: 72px; display: grid; place-items: center; }
+.hidden-word { display: flex; gap: 6px; align-items: center; }
+.hidden-word i { width: 7px; height: 7px; border-radius: 50%; background: #b7c3c8; }
+.word-button { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 0; color: var(--ink); background: transparent; cursor: pointer; font-size: clamp(1.35rem, 2.4vw, 1.7rem); font-weight: 850; letter-spacing: -0.035em; animation: word-in 280ms cubic-bezier(.2,.9,.25,1.2) both; }
+.word-button svg { color: var(--teal); }
+@keyframes word-in { from { opacity: 0; transform: translateY(8px) scale(.94); } }
+.page-footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 12px; padding-top: 22px; border-top: 1px solid var(--line); }
+.page-footer p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+.page-footer button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 13px; color: var(--ink); background: white; cursor: pointer; font-weight: 750; box-shadow: 0 5px 18px rgba(31,55,71,.05); }
+.page-footer button:disabled { opacity: .42; cursor: default; }
+
+@media (max-width: 900px) {
+  .word-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .intro { padding-top: 42px; }
+}
+@media (max-width: 560px) {
+  .page-shell { width: min(100% - 24px, 430px); padding-bottom: 28px; }
+  .site-header { height: 68px; }
+  .lesson-label { display: none; }
+  .intro { padding: 34px 0 24px; }
+  .intro-row { display: block; }
+  .intro h1 { font-size: clamp(2.55rem, 14vw, 3.8rem); }
+  .intro p:not(.eyebrow) { margin-top: 13px; line-height: 1.48; }
+  .progress { width: max-content; margin-top: 18px; padding: 9px 13px; }
+  .word-grid { gap: 10px; }
+  .picture-button { border-radius: 18px; }
+  .sound-badge { width: 36px; height: 36px; right: 9px; bottom: 9px; }
+  .answer { height: 60px; }
+  .word-button { font-size: 1.3rem; }
+  .page-footer { align-items: stretch; flex-direction: column; margin-top: 6px; }
+  .page-footer button { justify-content: center; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
